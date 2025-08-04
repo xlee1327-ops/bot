@@ -4,7 +4,7 @@ import json, os, re
 from datetime import datetime, timedelta
 from keep_alive import keep_alive
 
-TOKEN = "MTQwMDgyNjc4NjI4NzMyNTI3Ng.GE-KDg.LK_h31xX5AY66ZuX8KaQAEWAYszKfiPYxqck5k"
+TOKEN = "MTQwMDgyNjc4NjI4NzMyNTI3Ng.GdufzT.3IC42ISbwxTOEaFnPXkQQM2Xdn_37u3gTv_zE0"
 DONATE_CHANNEL_ID = 1396728149798289519
 LEVI_ID = 854982878869717002
 HUNTER_ROLE_NAME = "Hunters"
