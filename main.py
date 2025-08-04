@@ -7,7 +7,7 @@ import json, os, re
 from datetime import datetime, timedelta
 from keep_alive import keep_alive
 
-TOKEN ="os.getenv("DISCORD_TOKEN")
+TOKEN =os.getenv("DISCORD_TOKEN")
 DONATE_CHANNEL_ID = 1396728149798289519
 LEVI_ID = 854982878869717002
 HUNTER_ROLE_NAME = "Hunters"
