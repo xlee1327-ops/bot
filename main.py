@@ -1,13 +1,14 @@
-import dotenv
+from dotenv import load_dotenv
 import os
 load_dotenv()
+
 import discord
 from discord.ext import commands
-import json, os, re
+import json, re
 from datetime import datetime, timedelta
 from keep_alive import keep_alive
 
-TOKEN =os.getenv("DISCORD_TOKEN")
+TOKEN = os.getenv("DISCORD_TOKEN")
 DONATE_CHANNEL_ID = 1396728149798289519
 LEVI_ID = 854982878869717002
 HUNTER_ROLE_NAME = "Hunters"
@@ -62,11 +63,9 @@ async def on_message(message):
 
     content = message.content.lower()
 
-    # ✅ Balas jika disebut "Ares" atau "Ashborn"
     if "ashborn" in content or "ares" in content:
         await message.channel.send(f"KEINGINANMU ADALAH PERINTAH BAGIKU TUAN {message.author.mention}")
 
-    # ✅ Balas jika disuruh beri semangat
     if "beri" in content and "semangat deh" in content and message.mentions:
         target = message.mentions[0]
         semangat_quote = (
@@ -75,27 +74,23 @@ async def on_message(message):
         )
         await message.channel.send(semangat_quote)
 
-    # ✅ Balas kalau nama Levi disebut
     levi_keywords = ["leps", "lepps", "levi", "lep"]
     if any(keyword in content for keyword in levi_keywords):
         user = await bot.fetch_user(LEVI_ID)
         await message.channel.send(f" JIKA {user.mention} TIDAK MENJAWAB SAAT DI PANGGIL  ARTINYA SEDANG BEKERJA ATAU BERMAIN BLOOD STRIKE")
 
-    # ✅ Lockdown
     if "lockdown" in content:
         overwrite = discord.PermissionOverwrite(send_messages=False)
         for channel in message.guild.text_channels:
             await channel.set_permissions(message.guild.default_role, overwrite=overwrite)
         await message.channel.send("🔒 Semua channel telah di-lockdown tuanku.")
 
-    # ✅ Buka lockdown
     if "sudahi" in content:
         overwrite = discord.PermissionOverwrite(send_messages=True)
         for channel in message.guild.text_channels:
             await channel.set_permissions(message.guild.default_role, overwrite=overwrite)
         await message.channel.send("✅ Lockdown telah dihentikan, semua channel dibuka kembali tuanku.")
 
-    # ✅ Filter kata kasar
     if is_toxic(message.content):
         pelanggaran = load_json(PELANGGARAN_FILE, {})
         user_id = str(message.author.id)
@@ -108,7 +103,6 @@ async def on_message(message):
         else:
             await message.channel.send(f"{message.author.mention} berkata kasar! (Role {MOD_ROLE} tidak ditemukan)")
 
-    # ✅ Donasi terdeteksi
     if message.channel.id == DONATE_CHANNEL_ID and "DONATE:" in message.content.upper():
         match = re.search(r'DONATE:\s*(\S+)', message.content, re.IGNORECASE)
         if match:
@@ -126,7 +120,6 @@ async def on_message(message):
                 f"💎 {message.author.mention} TELAH DONASI SEJUMLAH {jumlah} gems KE guild!\n🔥 GUILD AKAN BERTAMBAH KUAT DENGAN BANTUAN MU SALAM DESTROYER!!."
             )
 
-    # ✅ Deteksi kata "inf" atau "desert"
     if "inf" in content or "ds" in content:
         hunter_role = discord.utils.get(message.guild.roles, name=HUNTER_ROLE_NAME)
         if hunter_role:
